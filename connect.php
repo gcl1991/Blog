@@ -14,4 +14,4 @@ if(!mysql_select_db($database))
 {
  	exit('Error: could not select the database');
 }
-?># 修复冲突
+?># ti jiao
