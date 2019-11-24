@@ -14,4 +14,4 @@ if(!mysql_select_db($database))
 {
  	exit('Error: could not select the database');
 }
-?>#iss53
+?>#iss5 解决了问题 
