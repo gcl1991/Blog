@@ -18,13 +18,16 @@
 		
 		<div id="userbar">
 		<?php
-		if($_SESSION['signed_in'])
+		if(isset($_SESSION['signed_in']) and $_SESSION['signed_in'] == true)
 		{
-			echo 'Hello <b>' . htmlentities($_SESSION['user_name']) . '</b>. Not you? <a class="item" href="signout.php">Sign out</a>';
+			echo 'Hello <b>' . 
+			htmlentities($_SESSION['user_name']) . 
+			'</b>. Not you? <a class="item" href="signout.php">Sign out</a>';
 		}
 		else
 		{
-			echo '<a class="item" href="signin.php">Sign in</a> or <a class="item" href="signup.php">create an account</a>';
+			echo '<a class="item" href="signin.php">Sign in</a> or 
+			<a class="item" href="signup.php">create an account</a>';
 		}
 		?>
 		</div>

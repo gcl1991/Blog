@@ -4,9 +4,13 @@ include 'connect.php';
 include 'header.php';
 
 echo '<h2>Create a category</h2>';
-if($_SESSION['signed_in'] == false | $_SESSION['user_level'] != 1 )
+if(!isset($_SESSION['signed_in']) or $_SESSION['signed_in'] == false)
 {
 	//the user is not an admin
+	echo 'Sorry, you have to be <a href="signin.php">signed in</a> to create a category.';
+
+}
+elseif($_SESSION['user_level'] != 1){
 	echo 'Sorry, you do not have sufficient rights to access this page.';
 }
 else
