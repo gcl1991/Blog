@@ -17,7 +17,7 @@ $sql = "SELECT
 		GROUP BY
 			categories.cat_name, categories.cat_description, categories.cat_id";
 
-$result = mysql_query($sql);
+$result = mysqli_query($connect,$sql);
 
 if(!$result)
 {
@@ -25,7 +25,7 @@ if(!$result)
 }
 else
 {
-	if(mysql_num_rows($result) == 0)
+	if(mysqli_num_rows($result) == 0)
 	{
 		echo 'No categories defined yet.';
 	}
@@ -38,7 +38,7 @@ else
 				<th>Last topic</th>
 			  </tr>';	
 			
-		while($row = mysql_fetch_assoc($result))
+		while($row = mysqli_fetch_assoc($result))
 		{				
 			echo '<tr>';
 				echo '<td class="leftpart">';
@@ -62,7 +62,7 @@ else
 								LIMIT
 									1";
 								
-					$topicsresult = mysql_query($topicsql);
+					$topicsresult = mysqli_query($connect,$topicsql);
 				
 					if(!$topicsresult)
 					{
@@ -70,13 +70,13 @@ else
 					}
 					else
 					{
-						if(mysql_num_rows($topicsresult) == 0)
+						if(mysqli_num_rows($topicsresult) == 0)
 						{
 							echo 'no topics';
 						}
 						else
 						{
-							while($topicrow = mysql_fetch_assoc($topicsresult))
+							while($topicrow = mysqli_fetch_assoc($topicsresult))
 							echo '<a href="topic.php?id=' . $topicrow['topic_id'] . '">' . $topicrow['topic_subject'] . '</a> at ' . date('d-m-Y', strtotime($topicrow['topic_date']));
 						}
 					}

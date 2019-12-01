@@ -7,7 +7,7 @@ echo '<h2>Create a topic</h2>';
 if($_SESSION['signed_in'] == false)
 {
 	//the user is not signed in
-	echo 'Sorry, you have to be <a href="/forum/signin.php">signed in</a> to create a topic.';
+	echo 'Sorry, you have to be <a href="signin.php">signed in</a> to create a topic.';
 }
 else
 {
@@ -23,7 +23,7 @@ else
 				FROM
 					categories";
 		
-		$result = mysql_query($sql);
+		$result = mysqli_query($connect,$sql);
 		
 		if(!$result)
 		{
@@ -32,7 +32,7 @@ else
 		}
 		else
 		{
-			if(mysql_num_rows($result) == 0)
+			if(mysqli_num_rows($result) == 0)
 			{
 				//there are no categories, so a topic can't be posted
 				if($_SESSION['user_level'] == 1)
@@ -52,7 +52,7 @@ else
 					Category:'; 
 				
 				echo '<select name="topic_cat">';
-					while($row = mysql_fetch_assoc($result))
+					while($row = mysqli_fetch_assoc($result))
 					{
 						echo '<option value="' . $row['cat_id'] . '">' . $row['cat_name'] . '</option>';
 					}
@@ -68,7 +68,7 @@ else
 	{
 		//start the transaction
 		$query  = "BEGIN WORK;";
-		$result = mysql_query($query);
+		$result = mysqli_query($connect,$query);
 		
 		if(!$result)
 		{
@@ -85,25 +85,25 @@ else
 							   topic_date,
 							   topic_cat,
 							   topic_by)
-				   VALUES('" . mysql_real_escape_string($_POST['topic_subject']) . "',
+				   VALUES('" . mysqli_real_escape_string($connect,$_POST['topic_subject']) . "',
 							   NOW(),
-							   " . mysql_real_escape_string($_POST['topic_cat']) . ",
+							   " . mysqli_real_escape_string($connect,$_POST['topic_cat']) . ",
 							   " . $_SESSION['user_id'] . "
 							   )";
 					 
-			$result = mysql_query($sql);
+			$result = mysqli_query($connect,$sql);
 			if(!$result)
 			{
 				//something went wrong, display the error
 				echo 'An error occured while inserting your data. Please try again later.<br /><br />' . mysql_error();
 				$sql = "ROLLBACK;";
-				$result = mysql_query($sql);
+				$result = mysqli_query($connect,$sql);
 			}
 			else
 			{
 				//the first query worked, now start the second, posts query
 				//retrieve the id of the freshly created topic for usage in the posts query
-				$topicid = mysql_insert_id();
+				$topicid = mysqli_insert_id($connect);
 				
 				$sql = "INSERT INTO
 							posts(post_content,
@@ -111,24 +111,24 @@ else
 								  post_topic,
 								  post_by)
 						VALUES
-							('" . mysql_real_escape_string($_POST['post_content']) . "',
+							('" . mysqli_real_escape_string($connect,$_POST['post_content']) . "',
 								  NOW(),
 								  " . $topicid . ",
 								  " . $_SESSION['user_id'] . "
 							)";
-				$result = mysql_query($sql);
+				$result = mysqli_query($connect,$sql);
 				
 				if(!$result)
 				{
 					//something went wrong, display the error
 					echo 'An error occured while inserting your post. Please try again later.<br /><br />' . mysql_error();
 					$sql = "ROLLBACK;";
-					$result = mysql_query($sql);
+					$result = mysqli_query($connect,$sql);
 				}
 				else
 				{
 					$sql = "COMMIT;";
-					$result = mysql_query($sql);
+					$result = mysqli_query($connect,$sql);
 					
 					//after a lot of work, the query succeeded!
 					echo 'You have succesfully created <a href="topic.php?id='. $topicid . '">your new topic</a>.';

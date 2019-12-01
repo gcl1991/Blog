@@ -9,9 +9,9 @@ $sql = "SELECT
 		FROM
 			topics
 		WHERE
-			topics.topic_id = " . mysql_real_escape_string($_GET['id']);
+			topics.topic_id = " . mysqli_real_escape_string($connect,$_GET['id']);
 			
-$result = mysql_query($sql);
+$result = mysqli_query($connect,$sql);
 
 if(!$result)
 {
@@ -19,13 +19,13 @@ if(!$result)
 }
 else
 {
-	if(mysql_num_rows($result) == 0)
+	if(mysqli_num_rows($result) == 0)
 	{
 		echo 'This topic doesn&prime;t exist.';
 	}
 	else
 	{
-		while($row = mysql_fetch_assoc($result))
+		while($row = mysqli_fetch_assoc($result))
 		{
 			//display post data
 			echo '<table class="topic" border="1">
@@ -48,9 +48,9 @@ else
 					ON
 						posts.post_by = users.user_id
 					WHERE
-						posts.post_topic = " . mysql_real_escape_string($_GET['id']);
+						posts.post_topic = " . mysqli_real_escape_string($connect,$_GET['id']);
 						
-			$posts_result = mysql_query($posts_sql);
+			$posts_result = mysqli_query($connect,$posts_sql);
 			
 			if(!$posts_result)
 			{
@@ -59,7 +59,7 @@ else
 			else
 			{
 			
-				while($posts_row = mysql_fetch_assoc($posts_result))
+				while($posts_row = mysqli_fetch_assoc($posts_result))
 				{
 					echo '<tr class="topic-post">
 							<td class="user-post">' . $posts_row['user_name'] . '<br/>' . date('d-m-Y H:i', strtotime($posts_row['post_date'])) . '</td>

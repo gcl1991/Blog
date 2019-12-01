@@ -73,18 +73,18 @@ else
 		//also notice the sha1 function which hashes the password
 		$sql = "INSERT INTO
 					users(user_name, user_pass, user_email ,user_date, user_level)
-				VALUES('" . mysql_real_escape_string($_POST['user_name']) . "',
+				VALUES('" . mysqli_real_escape_string($connect,$_POST['user_name']) . "',
 					   '" . sha1($_POST['user_pass']) . "',
-					   '" . mysql_real_escape_string($_POST['user_email']) . "',
+					   '" . mysqli_real_escape_string($connect,$_POST['user_email']) . "',
 						NOW(),
-						0)";
+						1)";
 						
-		$result = mysql_query($sql);
+		$result = mysqli_query($connect,$sql);
 		if(!$result)
 		{
 			//something went wrong, display the error
 			echo 'Something went wrong while registering. Please try again later.';
-			//echo mysql_error(); //debugging purposes, uncomment when needed
+			//echo mysqli_error(); //debugging purposes, uncomment when needed
 		}
 		else
 		{

@@ -25,10 +25,10 @@ else
 						  post_by) 
 				VALUES ('" . $_POST['reply-content'] . "',
 						NOW(),
-						" . mysql_real_escape_string($_GET['id']) . ",
+						" . mysqli_real_escape_string($connect,$_GET['id']) . ",
 						" . $_SESSION['user_id'] . ")";
 						
-		$result = mysql_query($sql);
+		$result = mysqli_query($connect,$sql);
 						
 		if(!$result)
 		{

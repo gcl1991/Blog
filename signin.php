@@ -63,23 +63,22 @@ else
 					FROM
 						users
 					WHERE
-						user_name = '" . mysql_real_escape_string($_POST['user_name']) . "'
+						user_name = '" . mysqli_real_escape_string($connect,$_POST['user_name']) . "'
 					AND
-						user_pass = '" . sha1($_POST['user_pass']) . "'";
-						
-			$result = mysql_query($sql);
+						user_pass = '" . sha1($_POST['user_pass']) . "';";
+			$result = mysqli_query($connect,$sql);
 			if(!$result)
 			{
 				//something went wrong, display the error
 				echo 'Something went wrong while signing in. Please try again later.';
-				//echo mysql_error(); //debugging purposes, uncomment when needed
+				//echo mysqli_error(); //debugging purposes, uncomment when needed
 			}
 			else
 			{
 				//the query was successfully executed, there are 2 possibilities
 				//1. the query returned data, the user can be signed in
 				//2. the query returned an empty result set, the credentials were wrong
-				if(mysql_num_rows($result) == 0)
+				if(mysqli_num_rows($result) == 0)
 				{
 					echo 'You have supplied a wrong user/password combination. Please try again.';
 				}
@@ -89,7 +88,7 @@ else
 					$_SESSION['signed_in'] = true;
 					
 					//we also put the user_id and user_name values in the $_SESSION, so we can use it at various pages
-					while($row = mysql_fetch_assoc($result))
+					while($row = mysqli_fetch_assoc($result))
 					{
 						$_SESSION['user_id'] 	= $row['user_id'];
 						$_SESSION['user_name'] 	= $row['user_name'];
