@@ -35,6 +35,7 @@ else
 		
 			//fetch the posts from the database
 			$posts_sql = "SELECT
+						posts.post_id,
 						posts.post_topic,
 						posts.post_content,
 						posts.post_date,
@@ -61,10 +62,15 @@ else
 			
 				while($posts_row = mysqli_fetch_assoc($posts_result))
 				{
-					echo '<tr class="topic-post">
-							<td class="user-post">' . $posts_row['user_name'] . '<br/>' . date('d-m-Y H:i', strtotime($posts_row['post_date'])) . '</td>
-							<td class="post-content">' . htmlentities(stripslashes($posts_row['post_content'])) . '</td>
-						  </tr>';
+					// echo "<style type='text/css'>a.delete-post{position:relative;bottom:-20px;right:-300px;}</style>";
+					echo '<tr class="topic-post"' .'id=' . $posts_row["post_id"] . '>' .
+							'<td class="user-post">' . $posts_row['user_name'] . '<br/>' . date('d-m-Y H:i', strtotime($posts_row['post_date'])) . '</td>
+							<td class="post-content">' . htmlentities(stripslashes($posts_row['post_content']));
+							if($_SESSION['user_id'] == $posts_row['user_id']){
+								echo "<a class='delete-post' href='delete_post.php?post_id=" .$posts_row['post_id'].'&topic_id='.$posts_row['post_topic']. "'>删除</a>";
+							echo '</td>';
+					echo '</tr>';
+					}
 				}
 			}
 			

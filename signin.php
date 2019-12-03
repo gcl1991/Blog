@@ -2,7 +2,13 @@
 //signin.php
 include 'connect.php';
 include 'header.php';
-
+?>
+<script>
+function status_signin(user_name) {
+	document.getElementById('userbar').innerHTML="Hello <b>" + user_name + "</b>. Not you? <a class='item' href='signout.php'>Sign out</a>";
+}
+</script>
+<?php
 echo '<h3>Sign in</h3><br />';
 
 //first, check if the user is already signed in. If that is the case, there is no need to display this page
@@ -94,13 +100,12 @@ else
 						$_SESSION['user_name'] 	= $row['user_name'];
 						$_SESSION['user_level'] = $row['user_level'];
 					}
-					
+					echo "<script>status_signin(". htmlentities($_SESSION['user_name']) . ")</script>";			
 					echo 'Welcome, ' . $_SESSION['user_name'] . '. <br /><a href="index.php">Proceed to the forum overview</a>.';
 				}
 			}
 		}
 	}
 }
-
 include 'footer.php';
 ?>
