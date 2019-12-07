@@ -2,10 +2,7 @@
 //signin.php
 include 'connect.php';
 include 'header.php';
-<<<<<<< HEAD
 include 'create_image_code.php';
-=======
->>>>>>> fb78cc19d6204994f13198fafaf4b5f239641ddd
 ?>
 <script>
 function status_signin(user_name) {
