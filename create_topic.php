@@ -45,15 +45,7 @@ else
 				}
 			}
 			else
-			{	
-				echo '<form action="upload_file.php" method="post"
-				enctype="multipart/form-data">
-				<label for="file">Filename:</label>
-				<input type="file" name="file" id="file" /> 
-				<br />
-				<input type="submit" name="submit" value="Submit" />
-				</form>';
-		
+			{		
 				echo '<form method="post" action="">
 					Subject: <input type="text" name="topic_subject" /><br />
 					Category:'; 
@@ -72,7 +64,7 @@ else
 		}
 	}
 	else
-	{
+	{	
 		//start the transaction
 		$query  = "BEGIN WORK;";
 		$result = mysqli_query($connect,$query);

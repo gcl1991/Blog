@@ -18,15 +18,36 @@ else
 	else
 	{
 		//a real user posted a real reply
+		if ($_FILES["file"]["size"] < 200*1024){
+		if ($_FILES["file"]["error"] > 0)
+			{
+			echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
+			}
+		else
+			{
+			$im_save_path = "upload/" . $_FILES["file"]["name"];
+			if (!(file_exists($im_save_path)))
+			{
+			move_uploaded_file($_FILES["file"]["tmp_name"],$im_save_path);
+			}
+			}
+		}
+		else
+		{
+		echo "图片文件必须小于200K";
+		}
+
 		$sql = "INSERT INTO 
 					posts(post_content,
+						  post_image_url,
 						  post_date,
 						  post_topic,
 						  post_by) 
-				VALUES ('" . $_POST['reply-content'] . "',
-						NOW(),
-						" . mysqli_real_escape_string($connect,$_GET['id']) . ",
-						" . $_SESSION['user_id'] . ")";
+				VALUES ('" . $_POST['reply-content'] . "',"
+						. "'" .$_FILES["file"]["name"]. "'," 
+						."NOW()," 
+						. mysqli_real_escape_string($connect,$_GET['id']) . "," 
+						. $_SESSION['user_id'] . ")";
 						
 		$result = mysqli_query($connect,$sql);
 						

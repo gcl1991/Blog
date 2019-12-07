@@ -70,11 +70,12 @@ else
 							if (isset($_SESSION['user_id']) and ($_SESSION['user_id'] == $posts_row['user_id'])){
 								echo "<a class='update-post' href='update_post.php?post_id=" .$posts_row['post_id'].'&topic_id='.$posts_row['post_topic']. "'>修改 or </a>";
 								echo "<a class='delete-post' href='delete_post.php?post_id=" .$posts_row['post_id'].'&topic_id='.$posts_row['post_topic']. "'>删除</a>";
-							if (!empty($posts_row["post_image_url"])):
-								echo "<img src='".$posts_row["post_image_url"]."'/>";
+							}
+							if (!empty($posts_row["post_image_url"])){
+								echo "<img src='upload/" . $posts_row["post_image_url"]."'/>";
+							}
 							echo '</td>';
 					echo '</tr>';
-					}
 				}
 			}
 			
@@ -86,7 +87,9 @@ else
 			{
 				//show reply box
 				echo '<tr><td colspan="2"><h2>Reply:</h2><br />
-					<form method="post" action="reply.php?id=' . $row['topic_id'] . '">
+					<form enctype="multipart/form-data" method="post" action="reply.php?id=' . $row['topic_id'] . '">
+						上传图片:<input type="file" name="file" id="file"/> 
+						<br />
 						<textarea name="reply-content"></textarea><br /><br />
 						<input type="submit" value="Submit reply" />
 					</form></td></tr>';
