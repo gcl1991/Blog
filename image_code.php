@@ -1,34 +1,6 @@
-<!-- <?php 
-session_start();  
-// generate 4 digit random number 
-$rndval = rand(1000, 9999);
-// create the hash for the random number and put it in the session 
-$_SESSION['rndnum'] = md5($rndval); 
-// create the image 
-$img = imagecreate(60, 30); 
-// set background image 
-$bgc = imagecolorallocate ($img, 255, 251, 205);  
-// the text color is black 
-$fontcolor = imagecolorallocate ($img, 0, 0, 0);  
-// write the random number 
-imagestring ($img, 5, 5, 8, $rndval, $fontcolor);  
-// send the content type header so the image is displayed properly 
-header('Content-type: image/jpeg'); 
-// send the image to the browser 
-imagejpeg($img); 
-// destroy the image to free up the memory 
-// imagedestroy($img); 
-?>   -->
 <?php
-$string = "abcdefghijklmnopqrstuvwxyz0123456789";
-$str = "";
-for($i=0;$i<6;$i++){
-    $pos = rand(0,35);
-    $str .= $string{$pos};
-}
-// session_start();
-$_SESSION['img_number'] = $str;
-    $img_handle = Imagecreate(80, 20);  //图片大小80X20
+$str = $_GET["im_code"];
+$img_handle = Imagecreate(80, 20);  //图片大小80X20
 $back_color = ImageColorAllocate($img_handle, 255, 255, 255); //背景颜色（白色）
 $txt_color = ImageColorAllocate($img_handle, 0,0, 0);  //文本颜色（黑色）
 
@@ -46,7 +18,8 @@ for($i=0;$i<200;$i++)
 }
     Imagefill($img_handle, 0, 0, $back_color);             //填充图片背景色
 ImageString($img_handle, 28, 10, 0, $str, $txt_color);//水平填充一行字符串
-    ob_clean();   // ob_clean()清空输出缓存区    
+ob_clean();   // ob_clean()清空输出缓存区，没有此行的话，图片将无法显示   
 header("Content-type: image/png"); //生成验证码图片    
 Imagepng($img_handle);//显示图片
+imagedestroy($img_handle);
 ?>

@@ -2,6 +2,7 @@
 //signin.php
 include 'connect.php';
 include 'header.php';
+include 'create_image_code.php';
 ?>
 <script>
 function status_signin(user_name) {
@@ -20,11 +21,15 @@ else
 {
 	if($_SERVER['REQUEST_METHOD'] != 'POST')
 	{
+
+		$_SESSION["im_code"] = create_code();
 		/*the form hasn't been posted yet, display it
 		  note that the action="" will cause the form to post to the same page it is on */
 		echo '<form method="post" action="">
 			Username: <input type="text" name="user_name" /><br />
 			Password: <input type="password" name="user_pass"><br />
+			image_code: <input type="text" name="image_code"> 
+			<img src="image_code.php?im_code='.$_SESSION["im_code"].'"/><br />
 			<input type="submit" value="Sign in" />
 		 </form>';
 	}
@@ -36,6 +41,12 @@ else
 			3.	Varify if the data is correct and return the correct response
 		*/
 		$errors = array(); /* declare the array for later use */
+
+		if ($_SESSION['im_code'] != $_POST["image_code"])
+		{
+			$errors[] = "验证码错误";
+		}
+	
 		
 		if(!isset($_POST['user_name']))
 		{

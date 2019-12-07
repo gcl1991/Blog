@@ -2,20 +2,23 @@
 //signup.php
 include 'connect.php';
 include 'header.php';
-
+include 'create_image_code.php';
 echo '<h3>Sign up</h3><br />';
 
 if($_SERVER['REQUEST_METHOD'] != 'POST')
 {
     /*the form hasn't been posted yet, display it
 	  note that the action="" will cause the form to post to the same page it is on */
+	$_SESSION["im_code"] = create_code();
     echo '<form method="post" action="">
  	 	Username: <input type="text" name="user_name" /><br />
  		Password: <input type="password" name="user_pass"><br />
 		Password again: <input type="password" name="user_pass_check"><br />
 		E-mail: <input type="email" name="user_email"><br />
+		image_code: <input type="text" name="image_code"> 
+		<img src="image_code.php?im_code='.$_SESSION["im_code"] . '"><br />
  		<input type="submit" value="Add category" />
- 	 </form>';
+	  </form>';
 }
 else
 {
@@ -25,6 +28,9 @@ else
 		3.	Save the data 
 	*/
 	$errors = array(); /* declare the array for later use */
+	if ($_POST['image_code'] != $_SESSION["im_code"]){
+		$errors[]="验证码错误";
+	}
 	
 	if(isset($_POST['user_name']))
 	{
@@ -71,10 +77,11 @@ else
 		//the form has been posted without, so save it
 		//notice the use of mysql_real_escape_string, keep everything safe!
 		//also notice the sha1 function which hashes the password
+		$salf = "my_is_one";
 		$sql = "INSERT INTO
 					users(user_name, user_pass, user_email ,user_date, user_level)
 				VALUES('" . mysqli_real_escape_string($connect,$_POST['user_name']) . "',
-					   '" . sha1($_POST['user_pass']) . "',
+					   '" . sha1($_POST['user_pass'] . $salf) . "',
 					   '" . mysqli_real_escape_string($connect,$_POST['user_email']) . "',
 						NOW(),
 						1)";

@@ -38,6 +38,7 @@ else
 						posts.post_id,
 						posts.post_topic,
 						posts.post_content,
+						posts.post_image_url,
 						posts.post_date,
 						posts.post_by,
 						users.user_id,
@@ -62,14 +63,15 @@ else
 			
 				while($posts_row = mysqli_fetch_assoc($posts_result))
 				{
-					echo "<style type='text/css'>a.delete-post{position:relative;bottom:-20px;right:-300px;}</style>";
+					echo "<style type='text/css'>a.delete-post, a.update-post{position:relative;bottom:-20px;right:-300px;}</style>";
 					echo '<tr class="topic-post"' .'id=' . $posts_row["post_id"] . '>' .
 							'<td class="user-post">' . $posts_row['user_name'] . '<br/>' . date('d-m-Y H:i', strtotime($posts_row['post_date'])) . '</td>
 							<td class="post-content">' . htmlentities(stripslashes($posts_row['post_content']));
-							echo "id是:" . $posts_row["post_id"] . "主题id是:" . $posts_row['post_topic'];
 							if (isset($_SESSION['user_id']) and ($_SESSION['user_id'] == $posts_row['user_id'])){
+								echo "<a class='update-post' href='update_post.php?post_id=" .$posts_row['post_id'].'&topic_id='.$posts_row['post_topic']. "'>修改 or </a>";
 								echo "<a class='delete-post' href='delete_post.php?post_id=" .$posts_row['post_id'].'&topic_id='.$posts_row['post_topic']. "'>删除</a>";
-								echo "<a class='update-post' href='update_post.php?post_id=" .$posts_row['post_id'].'&topic_id='.$posts_row['post_topic']. "'>修改</a>";
+							if (!empty($posts_row["post_image_url"])):
+								echo "<img src='".$posts_row["post_image_url"]."'/>";
 							echo '</td>';
 					echo '</tr>';
 					}
