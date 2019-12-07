@@ -1,7 +1,7 @@
 <?php 
 session_start();
 //connect.php
-$server	    = 'localhost';
+$server	    = '192.168.132.154';
 $username	= 'root';
 $password	= '0110';
 $database	= 'Blog';
