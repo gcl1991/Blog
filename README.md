@@ -9,5 +9,5 @@
 6 图片验证码。<br/>
 7 上传图片。<br/>
 未完成:<br/>
-1 阻止用户在发文章或评论时输入带 HTML 或 JavaScript 的内容。<br/>
-2 防范 SQL 注入。<br/>
+1 阻止用户在发文章或评论时输入带 HTML 或 JavaScript 的内容，https://excess-xss.com/。<br/>
+2 防范 SQL 注入,https://www.php.net/manual/zh/security.database.sql-injection.php,https://docs.microsoft.com/zh-cn/previous-versions/sql/sql-server-2008-r2/ms161953(v=sql.105)?redirectedfrom=MSDN。<br/>
